@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Miro Up — Landing Page
 
-## Getting Started
+Miro Up IT agentligi uchun landing page. Next.js 16 + Tailwind CSS 4.
 
-First, run the development server:
+## Ishga tushirish
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Brauzerda [http://localhost:3000](http://localhost:3000) ni oching.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Kontakt formasini sozlash (Telegram)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Sahifadagi "Aloqa" formasi to'ldirilganda xabar sizning Telegram guruhingizga/kanalingizga bot orqali yuboriladi. Ishga tushirish uchun 2 ta narsa kerak: **bot token** va **chat ID**.
 
-## Learn More
+### 1. Bot token olish
 
-To learn more about Next.js, take a look at the following resources:
+1. Telegram'da [@BotFather](https://t.me/BotFather) ni oching
+2. `/newbot` buyrug'ini yuboring, bot nomini kiriting (masalan, `Miro Up Leads Bot`)
+3. BotFather sizga token beradi, masalan: `123456789:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Chat ID olish
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Botni xabarlar tushishini xohlagan Telegram guruhingizga qo'shing (yoki shaxsiy chatda o'zingizga yuboring)
+2. Guruhga istalgan xabar yozing
+3. Brauzerda quyidagi manzilni oching (TOKEN o'rniga o'z tokeningizni qo'ying):
+   `https://api.telegram.org/bot<TOKEN>/getUpdates`
+4. Natijada chiqqan JSON ichidan `"chat":{"id": -1001234567890, ...}` qatorini toping — shu raqam sizning `chat_id`. Guruhlarda odatda manfiy (`-`) raqam bo'ladi.
 
-## Deploy on Vercel
+### 3. `.env.local` faylini to'ldirish
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Loyiha papkasida `.env.local` fayli bor, ichiga quyidagicha yozing:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+TELEGRAM_BOT_TOKEN=123456789:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw
+TELEGRAM_CHAT_ID=-1001234567890
+```
+
+Serverni qayta ishga tushiring (`npm run dev`) — forma endi shu guruhga xabar yuboradi.
+
+### Production (Vercel va h.k.) uchun
+
+Vercelga deploy qilganda, loyihaning **Settings → Environment Variables** bo'limiga xuddi shu ikkita qiymatni (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`) qo'shing — `.env.local` fayli serverga ko'tarilmaydi (git bilan commit qilinmaydi), shuning uchun bu qadam shart.
+
+## Kontakt ma'lumotlarini yangilash
+
+Sayt bo'ylab ko'rsatilgan kontaktlar (Telegram: `@miro_coder`, telefon: `+998 99 999 80 84`) quyidagi fayllarda saqlanadi — kerak bo'lsa shu yerlardan o'zgartiring:
+
+- `src/components/Contact.tsx` — Telegram, telefon
+- `src/components/Footer.tsx` — Telegram, telefon
+- `src/components/CTASection.tsx` — Telegram havolasi
+
+## Loyiha tuzilishi
+
+- `src/app/page.tsx` — barcha bo'limlarni yig'adigan asosiy sahifa
+- `src/components/` — Navbar, Hero, Services, WhyUs, Process, CTASection, Contact, Footer
+- `src/app/api/contact/route.ts` — kontakt formasini Telegramga yuboruvchi API
+- `public/images/` — logo fayllari
